@@ -33,6 +33,6 @@ export default class Deck {
       newOrder.push(oldOrder.splice(randomIndex, 1));
     } while(oldOrder.length > 0);
 
-    this._cards = newOrder
+    this._cards = newOrder;
   }
 }
