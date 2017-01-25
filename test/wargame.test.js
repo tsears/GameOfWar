@@ -5,7 +5,7 @@ import Card from '../js/Card';
 describe('War Game Tests', () => {
   describe('Setup', () => {
       it('Sets up the correct number of players', () => {
-        let deck = new Deck(1,1);
+        let deck = new Deck(1,3);
         const game = new WarGame(deck, 3);
 
         expect(game.players.length).toBe(3);
@@ -76,11 +76,11 @@ describe('War Game Tests', () => {
 
       const deck = new FakeDeck();
       const game = new WarGame(deck, 2);
-      const winner = game.playRound();
+      let winner = game.playRound();
 
       expect(winner).toBeNull();
 
-      const winner = game.playRound();
+      winner = game.playRound();
       expect(winner.name).toBe('Player 2');
     });
   });
