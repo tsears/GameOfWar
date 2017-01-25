@@ -10,6 +10,7 @@ export default class ScriptTasks {
       return self.gulp.src([
   			'gulpfile.babel.js',
   			'js/**/*.js',
+        'test/**/*.js',
   			'!**/*.min.js',
   		])
   		.pipe(self.plugins.jshint({

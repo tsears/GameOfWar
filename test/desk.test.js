@@ -4,7 +4,8 @@ describe('Deck Tests', () => {
   describe('Creation', () => {
     it('Creates a deck of the correct size', () => {
         const deck = new Deck(3, 5);
-        expect(deck.size).toBe(15);
+        expect(deck.currentSize).toBe(15);
+        expect(deck.initalSize).toBe(15);
     });
 
     it('Creates the expected cards', () => {
@@ -23,16 +24,18 @@ describe('Deck Tests', () => {
       expect(card3.rank).toBe(1);
       expect(card4.suit).toBe(2);
       expect(card4.rank).toBe(2);
-    })
+    });
   });
 
   describe('Deal', () => {
     const deck = new Deck(1, 1);
     const card = deck.deal();
 
-    expect(card.suit).toBe(1);
-    expect(card.rank).toBe(1);
-  })
+    it('Deals a card with the correct rank and suit', () => {
+      expect(card.suit).toBe(1);
+      expect(card.rank).toBe(1);
+    });
+  });
 
   describe('Shuffle', () => {
     // a new deck will always be ordered....
@@ -51,19 +54,22 @@ describe('Deck Tests', () => {
       let initialSuit = 1;
       let initialRank = 1;
       let different = false;
+      let cardsDrawn = 0;
 
       outer:
       for(let i = 1; i <= 4; ++i) {
-        for(let j = 1; j <= 13; ++i ) {
+        for(let j = 1; j <= 13; ++j ) {
           const card = deck.deal();
           if (card.suit !== i || card.rank !== j) {
+            ++cardsDrawn;
             different = true;
-            break outer;
+            break outer; // this will very likely break on the first element..
           }
         }
       }
 
       expect(different).toBe(true);
-    })
+      expect(deck.currentSize).toBe(52 - cardsDrawn);
+    });
   });
 });
