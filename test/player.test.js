@@ -1,4 +1,5 @@
 import Player from '../js/Player';
+import Card from '../js/Card';
 
 describe('Player Tests', () => {
   let player = null;
