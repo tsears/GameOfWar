@@ -39,11 +39,20 @@ export default class WarGame {
     const result = new RoundResult();
     const indicies = this._players.map((p, i) => { return i; });
 
-    return this._resolveWar(indicies, result);
+    return this._resolveRound(indicies, result);
   }
 
-  // recursively perform draws until a winner is determined..
-  _resolveWar(warringPlayers, result) {
+
+  /*****************************************************************************
+  * _resolveRound
+  *
+  * This is where all the magic happens.  We will recursively determine the outcome
+  * of the round.  If the draws result in a war, we will keep calling this function
+  * until all wars are resolved.  A complete record of the draws will be returned
+  * along with the winner
+  *****************************************************************************/
+
+  _resolveRound(warringPlayers, result) {
     const draw = warringPlayers.map(i => {
       return this._players[i].revealCard();
     });
@@ -65,20 +74,18 @@ export default class WarGame {
       const warringPlayerIndicies = [];
       for (let i = 0; i < draw.length; i++) {
         if (draw[i].rank === max.rank) {
-          warringPlayerIndicies.push(i);
+          warringPlayerIndicies.push(warringPlayers[i]);
         }
       }
 
       // recurse
-      return this._resolveWar(warringPlayerIndicies, result);
+      return this._resolveRound(warringPlayerIndicies, result);
     } else {
       // break recursion
-      let winner = this._players[draw.indexOf(max)]; //object equality....
+      let winner = this._players[warringPlayers[draw.indexOf(max)]]; //object equality....
       result.winner = winner;
       return result;
     }
-
-    return;
   }
 
   _findCardWithMaxValue(cards) {

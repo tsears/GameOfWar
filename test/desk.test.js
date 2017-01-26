@@ -28,7 +28,7 @@ describe('Deck Tests', () => {
   });
 
   describe('Deal', () => {
-    const deck = new Deck(1, 1);
+    const deck = new Deck(2, 2);
     const card = deck.deal();
 
     it('Deals a card with the correct rank and suit', () => {

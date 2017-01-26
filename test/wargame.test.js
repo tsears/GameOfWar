@@ -54,17 +54,17 @@ describe('War Game Tests', () => {
     class MockDeck {
       constructor() {
         this.cards = [
-          new Card(1, 3),
-          new Card(1, 4),
-          new Card(1, 1),
+          new Card(1, 3), // p1 card 3
+          new Card(1, 4), // p2 card 3
+          new Card(1, 1), // p3 card 3
 
-          new Card(1, 5),
-          new Card(1, 1),
-          new Card(1, 1),
+          new Card(1, 1), // p1 card 2
+          new Card(1, 5), // p2 card 2
+          new Card(1, 1), // p3 card 2
 
-          new Card(2, 2),
-          new Card(1, 2),
-          new Card(1, 1),
+          new Card(2, 2), // p1 card 1
+          new Card(1, 2), // p2 card 1
+          new Card(1, 1), // p3 card 1
         ];
 
         this.initialSize = 6;
@@ -94,11 +94,14 @@ describe('War Game Tests', () => {
     it('Determines the correct winner in a two-player war in a 3 player game', () => {
       const deck = new MockDeck();
 
+      // player 1 goes to war with player 2, player 2 wins.
       const game = new WarGame(deck, 3);
       let result = game.playRound();
 
-      expect(result.winner.name).toBe('Player 1');
+      expect(result.winner.name).toBe('Player 2');
     });
+
+
 
     it('Determines the correct winner in a three-player war in a 3 player game', () => {
         const deck = new MockDeck();
@@ -112,7 +115,7 @@ describe('War Game Tests', () => {
 
         // after that, it'll be a war between Players 1 and 2, or a repeat of the
         // above test
-        expect(result.winner.name).toBe('Player 1');
+        expect(result.winner.name).toBe('Player 2');
     });
   });
 });

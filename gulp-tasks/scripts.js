@@ -9,6 +9,7 @@ export default class ScriptTasks {
   	return () => {
       return self.gulp.src([
   			'gulpfile.babel.js',
+        'index.js',
   			'js/**/*.js',
         'test/**/*.js',
   			'!**/*.min.js',

@@ -21,7 +21,7 @@ export default class Deck {
   get initialSize() { return this._initialSize; }
 
   deal() {
-    return this._cards.shift();
+    return this._cards.shift(); //FIFO
   }
 
   shuffle() {
@@ -30,7 +30,8 @@ export default class Deck {
 
     do {
       let randomIndex = Math.floor(Math.random() * oldOrder.length);
-      newOrder.push(oldOrder.splice(randomIndex, 1));
+      let randomCard = oldOrder.splice(randomIndex, 1)[0];
+      newOrder.push(randomCard);
     } while(oldOrder.length > 0);
 
     this._cards = newOrder;
