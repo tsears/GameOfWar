@@ -5,11 +5,11 @@ export default class Deck {
     this._numSuits = numSuits;
     this._numRanks = numRanks;
     this._cards = [];
-    this._initalSize = 0; // yes, this is just suits * ranks. but we'll count for fun
+    this._initialSize = 0; // yes, this is just suits * ranks. but we'll count for fun
 
     for (let i = 1; i <= numSuits; ++i) {
       for (let j = 1; j <= numRanks; ++j) {
-        ++this._initalSize;
+        ++this._initialSize;
         this._cards.push(new Card(i, j));
       }
     }
@@ -18,7 +18,7 @@ export default class Deck {
   get numSuits() { return this._numSuits; }
   get numRanks() { return this._numRanks; }
   get currentSize() { return this._cards.length; }
-  get initalSize() { return this._initalSize; }
+  get initialSize() { return this._initialSize; }
 
   deal() {
     return this._cards.shift();

@@ -22,10 +22,10 @@ describe('Player Tests', () => {
 
     expect(card.suit).toBe(1);
     expect(card.rank).toBe(2);
-  })
+  });
 
   it('Removes card once revealed', () => {
     const card = player.revealCard();
     expect(player.cardCount).toBe(1);
-  })
+  });
 });

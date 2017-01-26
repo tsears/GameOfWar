@@ -39,9 +39,9 @@ describe('War Game Tests', () => {
           const p2 = game.getPlayer(2);
           const p3 = game.getPlayer(3);
 
-          expect(p1.cards.length).toBe(3);
-          expect(p2.cards.length).toBe(3);
-          expect(p3.cards.length).toBe(3);
+          expect(p1.cardCount).toBe(3);
+          expect(p2.cardCount).toBe(3);
+          expect(p3.cardCount).toBe(3);
       });
   });
 
@@ -50,38 +50,49 @@ describe('War Game Tests', () => {
     // That way we can actually exploit the default ordering of the deck to
     // perform tests
 
+    // flagrant abuse of duck typing...
+    class MockDeck {
+      constructor() {
+        this.cards = [
+          new Card(1, 3),
+          new Card(1, 4),
+          new Card(1, 5),
+          new Card(1, 1),
+          new Card(2, 2),
+          new Card(1, 2),
+        ];
+
+        this.initialSize = 6;
+      }
+
+      get currentSize() { return this.cards.length; }
+      deal() { return this.cards.shift(); }
+    }
+
     it('Determines winner correctly without a tie', () => {
       let deck = new Deck(1, 3);
       const game = new WarGame(deck, 3);
-      const winner = game.playRound();
+      const result = game.playRound();
 
       // player 3 is guaranteed to have the high card;
-      expect(winner.name).toBe('Player 3');
+      expect(result.winner.name).toBe('Player 3');
+    });
+
+    it('Correctly reports a war occured', () => {
+      const deck = new MockDeck();
+      const game = new WarGame(deck, 2);
+      const result = game.playRound();
+
+      expect(result.war).toBe(true);
     });
 
     it('Determines the correct winner in a war', () => {
-      // flagrant abuse of duck typing...
-      let FakeDeck = () => {
-        this.cards = [
-          new Card(1, 1),
-          new Card(2, 1),
-          new Card(1, 2),
-          new Card(1, 3),
-          new Card(1, 4),
-          new Card(1, 5)
-        ];
+      const deck = new MockDeck();
 
-        deal = () => { return this.cards.shift(); };
-      };
-
-      const deck = new FakeDeck();
       const game = new WarGame(deck, 2);
-      let winner = game.playRound();
+      let result = game.playRound();
 
-      expect(winner).toBeNull();
-
-      winner = game.playRound();
-      expect(winner.name).toBe('Player 2');
+      expect(result.winner.name).toBe('Player 2');
     });
   });
 });

@@ -5,7 +5,7 @@ describe('Deck Tests', () => {
     it('Creates a deck of the correct size', () => {
         const deck = new Deck(3, 5);
         expect(deck.currentSize).toBe(15);
-        expect(deck.initalSize).toBe(15);
+        expect(deck.initialSize).toBe(15);
     });
 
     it('Creates the expected cards', () => {

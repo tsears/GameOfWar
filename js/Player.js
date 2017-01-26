@@ -5,6 +5,7 @@ export default class Player {
   }
 
   get cardCount() { return this._cards.length; }
+  get name() { return this._name; }
 
   addCard(card) {
     this._cards.push(card);
