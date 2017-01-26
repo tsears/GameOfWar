@@ -8,9 +8,9 @@ export default class ScriptTasks {
     const self = this;
   	return () => {
       return self.gulp.src([
-  			'gulpfile.babel.js',
-        'index.js',
+  			'*.js',
   			'js/**/*.js',
+        'gulp-tasks/*.js',
         'test/**/*.js',
   			'!**/*.min.js',
   		])
@@ -18,7 +18,7 @@ export default class ScriptTasks {
   			'esversion': 6
   		}))
   		.pipe(self.plugins.jshint.reporter('default'));
-    }
+    };
   }
 
   angularLib() {
@@ -32,7 +32,7 @@ export default class ScriptTasks {
         preserveComments: 'license'
       }))
   		.pipe(self.gulp.dest('wwwroot/js/lib'));
-    }
+    };
   }
 
   angularPartials() {
@@ -40,7 +40,7 @@ export default class ScriptTasks {
     return () => {
       return self.gulp.src(['Frontend/**/*.html'])
 		  .pipe(self.gulp.dest('wwwroot/ng-partials'));
-    }
+    };
   }
 
   scriptCompile() {
@@ -68,7 +68,7 @@ export default class ScriptTasks {
     		.pipe(self.plugins.sourcemaps.init())
     		.pipe(self.gulp.dest('dist'))
     		.pipe(self.plugins.sourcemaps.write('.'));
-    }
+    };
   }
 
 	jsTest() {

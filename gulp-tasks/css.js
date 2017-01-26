@@ -17,7 +17,7 @@ export default class CssTasks {
       .pipe(self.plugins.rename('main.min.css'))
       .pipe(self.plugins.sourcemaps.write('.'))
       .pipe(self.gulp.dest('wwwroot/styles'));
-    }
+    };
   }
 
   libraryCSSDependencies () {

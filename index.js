@@ -13,11 +13,12 @@ function printDeck(pDeck) {
 
 function printResult(roundOutcome) {
   console.log(`Winner: ${roundOutcome.winner.name}`);
-  roundOutcome.war ? console.log('War: ' + clc.green('Yes')) : console.log('War: ' + clc.red('No'));
-  //console.log(`War: ${roundOutcome.war ? 'Yes' : 'No' }`)
+
+  // supress linter - yes, I know I'm not making an assignment...
+  roundOutcome.war ? console.log('War: ' + clc.green('Yes')) : console.log('War: ' + clc.red('No')); // jshint ignore:line
 
   roundOutcome.draws.map((d, i) => {
-    const formattedDraw = d.map(c => { return `S${c.suit}-R${c.rank}`});
+    const formattedDraw = d.map(c => { return `S${c.suit}-R${c.rank}`; });
     console.log(`Player ${i + 1}: ${formattedDraw}`);
   });
 }

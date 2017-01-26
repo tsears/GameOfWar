@@ -8,7 +8,7 @@ export default class AssetTasks {
     const self = this;
     return () => {
         return self.gulp.src('assets/icons/**/*')
-            .pipe(self.gulp.dest('wwwroot/icons'))
+            .pipe(self.gulp.dest('wwwroot/icons'));
     };
   }
 }
