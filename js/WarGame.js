@@ -36,32 +36,57 @@ export default class WarGame {
   }
 
   playRound() {
-    const draw = this._players.map(p => p.revealCard());
+    const result = new RoundResult();
+    const indicies = this._players.map((p, i) => { return i; });
 
-    const max = draw.reduce((a, b) => {
+    return this._resolveWar(indicies, result);
+  }
+
+  // recursively perform draws until a winner is determined..
+  _resolveWar(warringPlayers, result) {
+    const draw = warringPlayers.map(i => {
+      return this._players[i].revealCard();
+    });
+
+    // for .. of was giving babel fits... didn't want to run it down now.
+    for(let j = 0; j < warringPlayers.length; ++j) {
+      const playerIndex = warringPlayers[j];
+
+      if (!result.draws[playerIndex]) { result.draws[playerIndex] = []; }
+      result.draws[playerIndex].push(draw[j]);
+    }
+
+    const max = this._findCardWithMaxValue(draw);
+    const atWar = draw.filter(c => c.rank === max.rank).length > 1;
+
+    if (atWar) {
+      result.war = true;
+
+      const warringPlayerIndicies = [];
+      for (let i = 0; i < draw.length; i++) {
+        if (draw[i].rank === max.rank) {
+          warringPlayerIndicies.push(i);
+        }
+      }
+
+      // recurse
+      return this._resolveWar(warringPlayerIndicies, result);
+    } else {
+      // break recursion
+      let winner = this._players[draw.indexOf(max)]; //object equality....
+      result.winner = winner;
+      return result;
+    }
+
+    return;
+  }
+
+  _findCardWithMaxValue(cards) {
+    return cards.reduce((a, b) => {
       // a is the value of the element we're looking at,
       // b is the value of the previous max
       // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce#Parameters
       return b.rank > a.rank ? b : a;
     }, {rank: 0});
-
-    // if there are multiple elements with the max for a value, we will go to war on
-    // the next round...
-
-    const war = draw.filter(c => c.rank === max.rank).length > 1;
-    const result = new RoundResult();
-    draw.map((d, i) => {
-      result.draws[i] = [];
-      result.draws[i].push(d);
-    });
-
-    if (war) {
-      result.war = true;
-      return result;
-    } else {
-      let winner = this._players[draw.indexOf(max)]; //object equality....
-      result.winner = winner;
-      return result;
-    }
   }
 }

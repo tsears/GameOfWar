@@ -56,10 +56,15 @@ describe('War Game Tests', () => {
         this.cards = [
           new Card(1, 3),
           new Card(1, 4),
+          new Card(1, 1),
+
           new Card(1, 5),
           new Card(1, 1),
+          new Card(1, 1),
+
           new Card(2, 2),
           new Card(1, 2),
+          new Card(1, 1),
         ];
 
         this.initialSize = 6;
@@ -80,19 +85,34 @@ describe('War Game Tests', () => {
 
     it('Correctly reports a war occured', () => {
       const deck = new MockDeck();
-      const game = new WarGame(deck, 2);
+      const game = new WarGame(deck, 3);
       const result = game.playRound();
 
       expect(result.war).toBe(true);
     });
 
-    it('Determines the correct winner in a war', () => {
+    it('Determines the correct winner in a two-player war in a 3 player game', () => {
       const deck = new MockDeck();
 
-      const game = new WarGame(deck, 2);
+      const game = new WarGame(deck, 3);
       let result = game.playRound();
 
-      expect(result.winner.name).toBe('Player 2');
+      expect(result.winner.name).toBe('Player 1');
+    });
+
+    it('Determines the correct winner in a three-player war in a 3 player game', () => {
+        const deck = new MockDeck();
+        // ensure a 3 way war on the first pass
+        deck.cards.push(new Card(1,1));
+        deck.cards.push(new Card(1,1));
+        deck.cards.push(new Card(1,1));
+
+        const game = new WarGame(deck, 3);
+        let result = game.playRound();
+
+        // after that, it'll be a war between Players 1 and 2, or a repeat of the
+        // above test
+        expect(result.winner.name).toBe('Player 1');
     });
   });
 });
