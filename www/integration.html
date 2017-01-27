@@ -8,6 +8,7 @@ layout: main
 <style>
   #integration-container {
     display: flex;
+    justify-content: space-between;
   }
 
   #integration-container > div {
@@ -20,18 +21,10 @@ layout: main
     margin: 0;
   }
 
-  .card-display div, .round-outcome div {
+  .panel div {
     margin: 0;
     padding: 0.1em 0.5em;
     margin-bottom: 0.2em;
-  }
-
-  .round-outcome {
-    border: 1px solid #cecece;
-    border-radius: 5px;
-    padding: 0.5em;
-    background-color: rgba(0,0,0,0.1);
-    box-shadow: 3px 3px #888;
   }
 </style>
 
@@ -44,39 +37,70 @@ layout: main
  <div id="integration-container">
    <div>
      <h2>Ordered Deck</h2>
-     <div ng-repeat="card in vm.orderedDeck" class="card-display">
-       <div>Suit: {{card.suit}}</div>
-       <div>Rank: {{card.rank}}</div>
-     </div>
-   </div>
-   <div>
-     <h2>Shuffled Deck</h2>
-     <div ng-repeat="card in vm.shuffledDeck" class="card-display">
-       <div>Suit: {{card.suit}}</div>
-       <div>Rank: {{card.rank}}</div>
-     </div>
-   </div>
-   <div>
-     <h2>Sample Rounds</h2>
-     <div ng-repeat="round in vm.results" class="round-outcome">
-       <div><strong>Winner</strong> {{round.winner.name}}</div>
-       <div><strong>War</strong> {{round.war}}</div>
-       <div><strong>Draws</strong></div>
-       <div ng-repeat="draw in round.draws">
-         Player {{$index + 1}}:
-         <span ng-repeat="c in draw">S{{c.suit}}R{{c.rank}},</span>
+     <div class="panel">
+       <div ng-repeat="card in vm.orderedDeck" class="card-display">
+         <div>Suit: {{card.suit}}</div>
+         <div>Rank: {{card.rank}}</div>
        </div>
      </div>
    </div>
    <div>
+     <h2>Shuffled Deck</h2>
+     <div class="panel">
+       <div ng-repeat="card in vm.shuffledDeck" class="card-display">
+         <div>Suit: {{card.suit}}</div>
+         <div>Rank: {{card.rank}}</div>
+       </div>
+     </div>
+   </div>
+   <div>
+     <h2>Sample Rounds</h2>
+     <div ng-repeat="round in vm.results" class="round-outcome panel">
+       <result result="::round"></result>
+     </div>
+   </div>
+   <div>
      <h2>Sample Wars</h2>
+     <div class="panel">
+       <div><strong>Sample War</strong></div>
+       <hr/>
+       <result result="::vm.sampleWarResult"></result>
+     </div>
+
+     <div class="panel">
+       <div><strong>Sample Double+ War</strong></div>
+       <hr/>
+       <result result="::vm.sampleDoubleWarResult"></result>
+     </div>
+
+     <div class="panel">
+       <div><strong>Sample Three Way+ War</strong></div>
+       <hr/>
+       <result result="::vm.sampleThreeWayWarResult"></result>
+     </div>
    </div>
  </div>
 </div>
 {% endraw %}
 <script>
 
+
 var app = angular.module('IntegrationApp', []);
+
+app.directive('result', function() {
+  return {
+		restrict: 'E',
+		replace: 'true',
+    controller: [ function() {} ],
+    controllerAs: "rvm",
+    scope: {},
+    templateUrl: "/ng-templates/result.html",
+    bindToController: {
+      result: '<'
+    },
+	};
+})
+
 app.controller('IntegrationController', [function() {
   var emptyDeck = function(deck) {
     var out = [];
@@ -105,7 +129,27 @@ app.controller('IntegrationController', [function() {
   this.results.push(game.playRound());
   this.results.push(game.playRound());
 
-  x = new War.Deck(4,4);
+  var startWar = function(filter) {
+    var deck = new War.Deck(4, 13);
+    deck.shuffle();
+    var game = new War.Game(deck, 4);
+
+    while (true) {
+      var outcome = game.playRound();
+      if (filter(outcome)) {
+        deck = new War.Deck(4, 13);
+        deck.shuffle();
+        game = new War.Game(deck, 4);
+      } else {
+        return outcome;
+      }
+    }
+  }
+
+  // A war...
+  this.sampleWarResult = startWar(function(o) { return !o.war });
+  this.sampleDoubleWarResult = startWar(function(o) { return !o.draws.some(d => d.length === 3)})
+  this.sampleThreeWayWarResult = startWar(function(o) { return o.draws.filter(d => d.length > 1).length < 3; })
 }]);
 
 </script>

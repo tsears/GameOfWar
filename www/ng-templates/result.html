@@ -1,0 +1,9 @@
+<div>
+  <div><strong>Winner</strong> {{rvm.result.winner.name}}</div>
+  <div><strong>War</strong> <span ng-style="{{rvm.result.war}} ? { color: 'green'} : { color: 'red' }">{{rvm.result.war ? 'Yes' : 'No'}}</span></div>
+  <div><strong>Draws</strong></div>
+  <div ng-repeat="draw in rvm.result.draws">
+    Player {{$index + 1}}:
+    <span ng-repeat="c in draw">S{{c.suit}}R{{c.rank}},</span>
+  </div>
+</div>

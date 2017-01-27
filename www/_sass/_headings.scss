@@ -9,8 +9,9 @@ $step-size-heading: 0.33333;
 h1, h2, h3, h4, h5, h6 {
 	margin: 2rem;
 	color: $headings;
-	font-family: 'Cantarell', Helvetica, Arial, sans-serif;
+	font-family: 'Dosis', Helvetica, Arial, sans-serif;
 	letter-spacing: -1px;
+  font-weight: 800;
 }
 
 $start: 6;
@@ -24,9 +25,9 @@ $start: 6;
 }
 
 h1 {
-	font-family: 'Fjalla One', Helvetica, Arial, sans-serif;
 	letter-spacing: 3px;
 	font-size: 3em;
+  font-weight: 400;
 
 	&.top-heading {
 		margin-left: 0.7em;

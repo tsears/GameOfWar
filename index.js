@@ -79,7 +79,6 @@ console.log(clc.cyan('**********************\n'));
 deck = new Deck(4, 13);
 deck.shuffle();
 game = new WarGame(deck, 4);
-let doubleWar = false;
 
 while (true) {
   game.playRound();
