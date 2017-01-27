@@ -1,0 +1,27 @@
+title: Game Of War
+email: tom@tsears.net
+description: Site the demonstrates a computer playing war with itself.
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "" # the base hostname & protocol for your site, e.g. http://example.com
+twitter_username: tcsears
+github_username:  tsears
+
+host: 0.0.0.0
+port: 4000
+
+# Build settings
+markdown: kramdown
+
+gems:
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+
+# sass settings
+sass:
+  sass_dir: _sass
+  style: :compressed
+
+host: 0.0.0.0
+port: 4000

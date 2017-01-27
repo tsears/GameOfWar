@@ -1,0 +1,34 @@
+//@import url(https://fonts.googleapis.com/css?family=Raleway:400,600,800);
+
+$step-size-heading: 0.33333;
+@mixin heading-size($size) {
+    font-size: $size * $step-size-heading + em;
+}
+
+
+h1, h2, h3, h4, h5, h6 {
+	margin: 2rem;
+	color: $headings;
+	font-family: 'Cantarell', Helvetica, Arial, sans-serif;
+	letter-spacing: -1px;
+}
+
+$start: 6;
+@each $h in h1, h2, h3, h4, h5, h6 {
+
+	#{$h} {
+		@include heading-size($start);
+	}
+
+	$start: $start - 1;
+}
+
+h1 {
+	font-family: 'Fjalla One', Helvetica, Arial, sans-serif;
+	letter-spacing: 3px;
+	font-size: 3em;
+
+	&.top-heading {
+		margin-left: 0.7em;
+	}
+}

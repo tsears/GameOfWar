@@ -28,14 +28,14 @@ export default class WarGame {
   get deck() { return this._deck; }
   get players() { return this._players; }
 
-  getPlayer(player) {
+  getPlayer = (player) => {
     // players are not zero indexed... didn't want to do that jujitsu from the
     // consumer.
     const pIndex = player - 1;
     return this._players[pIndex];
   }
 
-  playRound() {
+  playRound = () => {
     const result = new RoundResult();
     const indicies = this._players.map((p, i) => { return i; });
 
@@ -52,7 +52,7 @@ export default class WarGame {
   * along with the winner
   *****************************************************************************/
 
-  _resolveRound(warringPlayers, result) {
+  _resolveRound = (warringPlayers, result) => {
     const draw = warringPlayers.map(i => {
       return this._players[i].revealCard();
     });
@@ -88,7 +88,7 @@ export default class WarGame {
     }
   }
 
-  _findCardWithMaxValue(cards) {
+  _findCardWithMaxValue = (cards) => {
     return cards.reduce((a, b) => {
       // a is the value of the element we're looking at,
       // b is the value of the previous max

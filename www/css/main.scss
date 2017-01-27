@@ -1,0 +1,86 @@
+---
+---
+
+@import 'colors';
+@import 'reset';
+@import 'headings';
+@import 'links';
+@import 'notifications';
+@import 'tables';
+
+html, body {
+  height: 100%;
+  font-family: 'Cantarell', Helvetica, Arial, sans-serif;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  background-color: $mainBackground;
+  color: $textColor;
+  font-size: 16px;
+
+  >div {
+    flex-grow: 1;
+  }
+}
+
+header > nav {
+  height: 3em;
+
+  ul {
+    display: flex;
+    height: 100%;
+
+    li {
+      line-height: 2em;
+
+      &:hover {
+        background-color: #000;
+      }
+
+      >a {
+        padding: 0.5em 1em;
+        display: block;
+        height: 100%;
+        width: 100%;
+      }
+    }
+  }
+}
+
+div, p, table {
+  margin: 2rem;
+}
+
+#content {
+  margin: 0;
+  padding: 0;
+}
+
+header, footer {
+  background-color: $secondaryBackground;
+  box-shadow: 0 0 10px #000;
+}
+
+footer {
+  padding: 1em;
+  >div {
+    margin: 1em;
+  }
+}
+
+footer {
+  >div {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+strong {
+  font-weight: bold;
+}
+
+.center {
+  text-align: center;
+}

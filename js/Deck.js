@@ -20,11 +20,11 @@ export default class Deck {
   get currentSize() { return this._cards.length; }
   get initialSize() { return this._initialSize; }
 
-  deal() {
+  deal = () => {
     return this._cards.shift(); //FIFO
-  }
+  };
 
-  shuffle() {
+  shuffle = () => {
     let newOrder = [];
     let oldOrder = this._cards.slice(); // we will leave the initial ordering in tact until the shuffle is complete...
 
@@ -35,5 +35,5 @@ export default class Deck {
     } while(oldOrder.length > 0);
 
     this._cards = newOrder;
-  }
+  };
 }

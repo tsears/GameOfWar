@@ -39,7 +39,7 @@ gulp.task('icons', assetTasks.icons());
 gulp.task('default',
   [
     'lint',
-    //'angularLib',
+    'angularLib',
     'scriptCompile',
     'jsTest',
     'angularPartials',

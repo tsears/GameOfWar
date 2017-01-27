@@ -1,3 +1,3 @@
-# GameOfWar
+# Game Of War
 
 Coding Exercise

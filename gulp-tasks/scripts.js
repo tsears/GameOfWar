@@ -14,10 +14,8 @@ export default class ScriptTasks {
         'test/**/*.js',
   			'!**/*.min.js',
   		])
-  		.pipe(self.plugins.jshint({
-  			'esversion': 6
-  		}))
-  		.pipe(self.plugins.jshint.reporter('default'));
+  		.pipe(self.plugins.eslint())
+  		.pipe(self.plugins.eslint.format());
     };
   }
 
@@ -31,7 +29,7 @@ export default class ScriptTasks {
   		.pipe(self.plugins.uglify({
         preserveComments: 'license'
       }))
-  		.pipe(self.gulp.dest('wwwroot/js/lib'));
+  		.pipe(self.gulp.dest('www/js/lib'));
     };
   }
 
@@ -46,27 +44,31 @@ export default class ScriptTasks {
   scriptCompile() {
     const self = this;
     return () => {
-    	return self.gulp.src('js/war.js')
+    	return self.gulp.src('js/War.js')
     		.pipe(self.plugins.webpackStream({
+            entry: { War: './js/War.js' },
     				module: {
     					loaders: [{
-    						loader: 'babel-loader'
+    						loader: 'babel-loader',
     					}]
     				},
     				output: {
-    					filename: 'war.min.js'
+    					filename: '[name].js',
+              libraryTarget: 'var',
+              library: '[name]'
     				},
     				devtool: 'source-map',
-    				plugins: [
-    					new self.plugins.webpack.optimize.UglifyJsPlugin({
-    						compress: {
-    							drop_debugger: false // the linter will warn about the debugger statement, assume it's there intentionally
-    						}
-    					})
-    				]
+    				// plugins: [
+    				// 	new self.plugins.webpack.optimize.UglifyJsPlugin({
+    				// 		compress: {
+    				// 			drop_debugger: false // the linter will warn about the debugger statement, assume it's there intentionally
+    				// 		}
+    				// 	})
+    				// ]
     		}))
     		.pipe(self.plugins.sourcemaps.init())
     		.pipe(self.gulp.dest('dist'))
+        .pipe(self.gulp.dest('www/js'))
     		.pipe(self.plugins.sourcemaps.write('.'));
     };
   }

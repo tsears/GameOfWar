@@ -1,0 +1,111 @@
+---
+layout: main
+---
+
+<script src="/js/War.js"></script>
+<script src="/js/lib/nglib.js"></script>
+
+<style>
+  #integration-container {
+    display: flex;
+  }
+
+  #integration-container > div {
+    margin: 1em;
+  }
+
+  .card-display {
+    display: flex;
+    justify-content: center;
+    margin: 0;
+  }
+
+  .card-display div, .round-outcome div {
+    margin: 0;
+    padding: 0.1em 0.5em;
+    margin-bottom: 0.2em;
+  }
+
+  .round-outcome {
+    border: 1px solid #cecece;
+    border-radius: 5px;
+    padding: 0.5em;
+    background-color: rgba(0,0,0,0.1);
+    box-shadow: 3px 3px #888;
+  }
+</style>
+
+<h1>Integration Demo</h1>
+
+<p>This page serves as a integration spot-check</p>
+
+{% raw %}
+<div ng-app='IntegrationApp' ng-controller='IntegrationController as vm'>
+ <div id="integration-container">
+   <div>
+     <h2>Ordered Deck</h2>
+     <div ng-repeat="card in vm.orderedDeck" class="card-display">
+       <div>Suit: {{card.suit}}</div>
+       <div>Rank: {{card.rank}}</div>
+     </div>
+   </div>
+   <div>
+     <h2>Shuffled Deck</h2>
+     <div ng-repeat="card in vm.shuffledDeck" class="card-display">
+       <div>Suit: {{card.suit}}</div>
+       <div>Rank: {{card.rank}}</div>
+     </div>
+   </div>
+   <div>
+     <h2>Sample Rounds</h2>
+     <div ng-repeat="round in vm.results" class="round-outcome">
+       <div><strong>Winner</strong> {{round.winner.name}}</div>
+       <div><strong>War</strong> {{round.war}}</div>
+       <div><strong>Draws</strong></div>
+       <div ng-repeat="draw in round.draws">
+         Player {{$index + 1}}:
+         <span ng-repeat="c in draw">S{{c.suit}}R{{c.rank}},</span>
+       </div>
+     </div>
+   </div>
+   <div>
+     <h2>Sample Wars</h2>
+   </div>
+ </div>
+</div>
+{% endraw %}
+<script>
+
+var app = angular.module('IntegrationApp', []);
+app.controller('IntegrationController', [function() {
+  var emptyDeck = function(deck) {
+    var out = [];
+
+    for (var i = 0; i < deck.initialSize; i++) {
+      out.push(deck.deal());
+    }
+
+    return out;
+  }
+
+  this.orderedDeck = emptyDeck(new War.Deck(4,4));
+
+  // todo - decks should be immutable...
+  var x = new War.Deck(4,4);
+  x.shuffle();
+  this.shuffledDeck = emptyDeck(x);
+
+  var normalDeck = new War.Deck(4, 13);
+  normalDeck.shuffle();
+  var game = new War.Game(normalDeck, 4);
+
+  this.results = [];
+  this.results.push(game.playRound());
+  this.results.push(game.playRound());
+  this.results.push(game.playRound());
+  this.results.push(game.playRound());
+
+  x = new War.Deck(4,4);
+}]);
+
+</script>

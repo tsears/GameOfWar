@@ -23,6 +23,8 @@ bld/
 [Ll]og/
 .vagrant/
 [Bb]uild/
+www/_site
+www/js
 
 # Visual Studio 2015 cache/options directory
 .vs/
