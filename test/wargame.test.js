@@ -79,8 +79,8 @@ describe('War Game Tests', () => {
       const game = new WarGame(deck, 3);
       const result = game.playRound();
 
-      // player 3 is guaranteed to have the high card;
-      expect(result.winner.name).toBe('Player 3');
+      // player 1 is guaranteed to have the high card;
+      expect(result.winner.name).toBe('Player 1');
     });
 
     it('Correctly reports a war occured', () => {

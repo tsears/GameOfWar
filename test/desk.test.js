@@ -16,14 +16,14 @@ describe('Deck Tests', () => {
       const card4 = deck.deal();
 
       /// deck is unshuffled, should be in a sensible order...
-      expect(card1.suit).toBe(1);
-      expect(card1.rank).toBe(1);
-      expect(card2.suit).toBe(1);
-      expect(card2.rank).toBe(2);
-      expect(card3.suit).toBe(2);
-      expect(card3.rank).toBe(1);
-      expect(card4.suit).toBe(2);
-      expect(card4.rank).toBe(2);
+      expect(card1.suit).toBe(2);
+      expect(card1.rank).toBe(2);
+      expect(card2.suit).toBe(2);
+      expect(card2.rank).toBe(1);
+      expect(card3.suit).toBe(1);
+      expect(card3.rank).toBe(2);
+      expect(card4.suit).toBe(1);
+      expect(card4.rank).toBe(1);
     });
   });
 
@@ -32,8 +32,8 @@ describe('Deck Tests', () => {
     const card = deck.deal();
 
     it('Deals a card with the correct rank and suit', () => {
-      expect(card.suit).toBe(1);
-      expect(card.rank).toBe(1);
+      expect(card.suit).toBe(2);
+      expect(card.rank).toBe(2);
     });
   });
 
