@@ -48,14 +48,7 @@ export default class WarGame {
 
   _resolveRound(warringPlayers, result) {
 
-    const draw = warringPlayers.map(i => { return this._players[i].revealCard(); });
-
-    for(let j = 0; j < warringPlayers.length; ++j) {
-      const playerIndex = warringPlayers[j];
-
-      if (!result.draws[playerIndex]) { result.draws[playerIndex] = []; }
-      result.draws[playerIndex].push(draw[j]);
-    }
+    const draw = this._draw(warringPlayers, result);
 
     const max = this._findCardWithMaxValue(draw);
     const atWar = draw.filter(c => c && c.rank === max.rank).length > 1;
@@ -70,12 +63,19 @@ export default class WarGame {
         }
       }
 
+      this._draw(warringPlayerIndicies, result);
+
       return this._resolveRound(warringPlayerIndicies, result);
     } else {
       // break recursion
       let winner = this._players[warringPlayers[draw.indexOf(max)]]; //object equality....
-      result.winner = winner;
-      this._awardCards(result.draws, winner);
+
+      if (!winner) {
+        result.winner = null;
+      } else {
+        result.winner = winner;
+        this._awardCards(result.draws, winner);
+      }
 
       if (this._gameIsOver()) {
         // console.log('game over!');
@@ -85,6 +85,19 @@ export default class WarGame {
 
       return result;
     }
+  }
+
+  _draw(warringPlayers, result) {
+    const draw = warringPlayers.map(i => { return this._players[i].revealCard(); });
+
+    for(let j = 0; j < warringPlayers.length; ++j) {
+      const playerIndex = warringPlayers[j];
+
+      if (!result.draws[playerIndex]) { result.draws[playerIndex] = []; }
+      result.draws[playerIndex].push(draw[j]);
+    }
+
+    return draw;
   }
 
   /*****************************************************************************
