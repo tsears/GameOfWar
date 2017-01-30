@@ -23,7 +23,14 @@ function printResult(roundOutcome) {
   roundOutcome.war ? console.log('War: ' + clc.green('Yes')) : console.log('War: ' + clc.red('No')); // jshint ignore:line
 
   roundOutcome.draws.map((d, i) => {
-    const formattedDraw = d.map(c => { c !== null ? return `S${c.suit}-R${c.rank}` : return 'XXXX'; });
+    const formattedDraw = d.map(c => {
+      if(c) {
+        return `S${c.suit}-R${c.rank}`;
+      } else {
+        return 'XX-XX';
+      }
+    });
+
     console.log(`Player ${i + 1}: ${formattedDraw}`);
   });
 }

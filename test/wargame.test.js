@@ -96,9 +96,14 @@ describe('War Game Tests', () => {
       deck.add(new Card(2,2)); // p3 card 1
       deck.add(new Card(2,2)); // p2 card 1
       deck.add(new Card(2,1)); // p1 card 1
+
       deck.add(new Card(1,1)); // p3 card 2
-      deck.add(new Card(1,5)); // p2 card 2
-      deck.add(new Card(1,1)); // p1 card 2 (not used)
+      deck.add(new Card(1,1)); // p3 card 2
+      deck.add(new Card(1,1)); // p1 card 2
+
+      deck.add(new Card(1,1)); // p3 card 3
+      deck.add(new Card(1,5)); // p2 card 3
+      deck.add(new Card(1,1)); // p1 card 3 (not used)
 
       const game = new WarGame(deck, 3);
       let result = game.playRound();
@@ -106,8 +111,8 @@ describe('War Game Tests', () => {
       // player 2 goes to war with player 3, player 2 wins.
       expect(result.war).toBe(true);
       expect(result.draws[0].length).toBe(1);
-      expect(result.draws[1].length).toBe(2);
-      expect(result.draws[2].length).toBe(2);
+      expect(result.draws[1].length).toBe(3);
+      expect(result.draws[2].length).toBe(3);
       expect(result.winner.name).toBe('Player 2');
     });
 
@@ -117,6 +122,10 @@ describe('War Game Tests', () => {
       deck.cards.push(new Card(1,1)); // p3 card 1
       deck.cards.push(new Card(1,1)); // p2 card 1
       deck.cards.push(new Card(1,1)); // p1 card 1
+
+      deck.add(new Card(1,1)); // p3 card 2
+      deck.add(new Card(1,1)); // p3 card 2
+      deck.add(new Card(1,1)); // p1 card 2
 
       deck.cards.push(new Card(1,2)); // p3 card 2
       deck.cards.push(new Card(1,10)); // p2 card 2
@@ -145,9 +154,14 @@ describe('War Game Tests', () => {
       const deck = new MockDeck();
       deck.add(new Card(2,2));
       deck.add(new Card(3,2));
+
       deck.add(new Card(1,1));
       deck.add(new Card(2,2));
-      deck.initialSize = 4;
+
+      deck.add(new Card(1,1));
+      deck.add(new Card(2,2));
+
+      deck.initialSize = 6;
 
       const game = new WarGame(deck, 2);
 
@@ -155,7 +169,7 @@ describe('War Game Tests', () => {
 
       expect(result.war).toBe(true);
       expect(result.gameOver).toBe(true);
-      expect(result.winner.score).toBe(4);
+      expect(result.winner.score).toBe(6);
     });
 
     /***************************************************************************
@@ -192,19 +206,23 @@ describe('War Game Tests', () => {
       // [1,1,5,2]
 
       let result = game.playRound();
-      expect(result.winner.name).toBe('Player 3');
+      expect(result.winner.name).toBe('Player 2');
       expect(result.war).toBe(true);
-      expect(result.winner.score).toBe(7);
+      expect(result.winner.score).toBe(8);
       expect(result.gameOver).toBe(false);
       expect(result.draws[0][0].rank).toBe(1);
       expect(result.draws[1][0].rank).toBe(2);
       expect(result.draws[2][0].rank).toBe(2);
+
       expect(result.draws[1][1].rank).toBe(2);
       expect(result.draws[2][1].rank).toBe(5);
 
+      expect(result.draws[1][2].rank).toBe(9);
+      expect(result.draws[2][2].rank).toBe(1);
+
       // [10,10,10]
-      // [9,9]
-      // [5,2,2,2,1,1,1]
+      // [1,5,2,9,2,2,1,9]
+      // [1]
 
       result = game.playRound();
       expect(result.winner.name).toBe('Player 1');
@@ -215,155 +233,86 @@ describe('War Game Tests', () => {
       expect(result.draws[2][0].rank).toBe(1);
 
       // [1,9,10,10,10]
-      // [9]
-      // [5,2,2,2,1,1]
+      // [1,5,2,9,2,2,1]
+      // []
+
+      result = game.playRound();
+      expect(result.winner.name).toBe('Player 1');
+      expect(result.winner.score).toBe(6);
+      expect(result.gameOver).toBe(false);
+      expect(result.draws[0][0].rank).toBe(10);
+      expect(result.draws[1][0].rank).toBe(1);
+      expect(result.draws[2][0]).toBeUndefined();
+
+      // [1,10,1,9,10,10]
+      // [1,5,2,9,2,2]
+      // []
 
       result = game.playRound();
       expect(result.winner.name).toBe('Player 1');
       expect(result.winner.score).toBe(7);
       expect(result.gameOver).toBe(false);
       expect(result.draws[0][0].rank).toBe(10);
-      expect(result.draws[1][0].rank).toBe(9);
-      expect(result.draws[2][0].rank).toBe(1);
+      expect(result.draws[1][0].rank).toBe(2);
+      expect(result.draws[2][0]).toBeUndefined();
 
-      // [1,9,10,1,9,10,10]
+      // [2,10,1,10,1,9,10]
+      // [1,5,2,9,2]
       // []
-      // [5,2,2,2,1]
 
       result = game.playRound();
       expect(result.winner.name).toBe('Player 1');
       expect(result.winner.score).toBe(8);
       expect(result.gameOver).toBe(false);
       expect(result.draws[0][0].rank).toBe(10);
-      expect(result.draws[1][0]).toBeUndefined();
-      expect(result.draws[2][0].rank).toBe(1);
+      expect(result.draws[1][0].rank).toBe(2);
+      expect(result.draws[2][0]).toBeUndefined();
 
-      // [1,10,1,9,10,1,9,10]
+      // [2,10,2,10,1,10,1,9]
+      // [1,5,2,9]
       // []
-      // [5,2,2,2]
 
       result = game.playRound();
       expect(result.winner.name).toBe('Player 1');
-      expect(result.winner.score).toBe(9);
+      expect(result.winner.score).toBe(11);
       expect(result.gameOver).toBe(false);
-      expect(result.draws[0][0].rank).toBe(10);
-      expect(result.draws[1][0]).toBeUndefined();
-      expect(result.draws[2][0].rank).toBe(2);
-
-      // [2,10,1,10,1,9,10,1,9]
-      // []
-      // [5,2,2]
-
-      result = game.playRound();
-      expect(result.winner.name).toBe('Player 1');
-      expect(result.winner.score).toBe(10);
-      expect(result.gameOver).toBe(false);
+      expect(result.war).toBe(true);
       expect(result.draws[0][0].rank).toBe(9);
-      expect(result.draws[1][0]).toBeUndefined();
-      expect(result.draws[2][0].rank).toBe(2);
+      expect(result.draws[1][0].rank).toBe(9);
+      expect(result.draws[2][0]).toBeUndefined();
 
-      // [2,9,2,10,1,10,1,9,10,1]
+      expect(result.draws[0][1].rank).toBe(1);
+      expect(result.draws[1][1].rank).toBe(2);
+
+      expect(result.draws[0][2].rank).toBe(10);
+      expect(result.draws[1][2].rank).toBe(5);
+
+      // [5,2,9,10,1,9,2,10,2,10,1]
+      // [1]
       // []
-      // [5,2]
-
-      result = game.playRound();
-      expect(result.winner.name).toBe('Player 3');
-      expect(result.winner.score).toBe(3);
-      expect(result.gameOver).toBe(false);
-      expect(result.draws[0][0].rank).toBe(1);
-      expect(result.draws[1][0]).toBeUndefined();
-      expect(result.draws[2][0].rank).toBe(2);
-
-      // [2,9,2,10,1,10,1,9,10]
-      // []
-      // [2,1,5]
-
-      result = game.playRound();
-      expect(result.winner.name).toBe('Player 1');
-      expect(result.winner.score).toBe(10);
-      expect(result.gameOver).toBe(false);
-      expect(result.draws[0][0].rank).toBe(10);
-      expect(result.draws[1][0]).toBeUndefined();
-      expect(result.draws[2][0].rank).toBe(5);
-
-      // [5,10,2,9,2,10,1,10,1,9]
-      // []
-      // [2,1]
-
-      result = game.playRound();
-      expect(result.winner.name).toBe('Player 1');
-      expect(result.winner.score).toBe(11);
-      expect(result.gameOver).toBe(false);
-      expect(result.draws[0][0].rank).toBe(9);
-      expect(result.draws[1][0]).toBeUndefined();
-      expect(result.draws[2][0].rank).toBe(1);
-
-      // [1,9,5,10,2,9,2,10,1,10,1]
-      // []
-      // [2]
-
-      result = game.playRound();
-      expect(result.winner.name).toBe('Player 3');
-      expect(result.winner.score).toBe(2);
-      expect(result.gameOver).toBe(false);
-      expect(result.draws[0][0].rank).toBe(1);
-      expect(result.draws[1][0]).toBeUndefined();
-      expect(result.draws[2][0].rank).toBe(2);
-
-      // [1,9,5,10,2,9,2,10,1,10]
-      // []
-      // [2,1]
-
-      result = game.playRound();
-      expect(result.winner.name).toBe('Player 1');
-      expect(result.winner.score).toBe(11);
-      expect(result.gameOver).toBe(false);
-      expect(result.draws[0][0].rank).toBe(10);
-      expect(result.draws[1][0]).toBeUndefined();
-      expect(result.draws[2][0].rank).toBe(1);
-
-      // [1,10,1,9,5,10,2,9,2,10,1]
-      // []
-      // [2]
-
-      result = game.playRound();
-      expect(result.winner.name).toBe('Player 3');
-      expect(result.winner.score).toBe(2);
-      expect(result.gameOver).toBe(false);
-      expect(result.draws[0][0].rank).toBe(1);
-      expect(result.draws[1][0]).toBeUndefined();
-      expect(result.draws[2][0].rank).toBe(2);
-
-      // [1,10,1,9,5,10,2,9,2,10]
-      // []
-      // [2,1]
-
-      result = game.playRound();
-      expect(result.winner.name).toBe('Player 1');
-      expect(result.winner.score).toBe(11);
-      expect(result.gameOver).toBe(false);
-      expect(result.draws[0][0].rank).toBe(10);
-      expect(result.draws[1][0]).toBeUndefined();
-      expect(result.draws[2][0].rank).toBe(1);
-
-      // [1,10,1,10,1,9,5,10,2,9,2]
-      // []
-      // [2]
 
       result = game.playRound();
       expect(result.winner.name).toBe('Player 1');
       expect(result.winner.score).toBe(12);
-      expect(result.war).toBe(true);
       expect(result.gameOver).toBe(true);
-      expect(result.draws[0][0].rank).toBe(2);
-      expect(result.draws[1][0]).toBeUndefined();
-      expect(result.draws[2][0].rank).toBe(2);
+      expect(result.war).toBe(true);
+      expect(result.draws[0][0].rank).toBe(1);
+      expect(result.draws[1][0].rank).toBe(1);
+      expect(result.draws[2][0]).toBeUndefined();
 
-      // [2,9,2,1,10,1,10,1,9,5,10,2]
+      expect(result.draws[0][1].rank).toBe(10);
+      expect(result.draws[1][1]).toBeUndefined();
+
+      //even though p2 ran out of cards to draw in the war, p1 is going to draw as
+      //normal -- this effects the final state of his deck.
+      expect(result.draws[0][2].rank).toBe(2);
+      expect(result.draws[1][2]).toBeUndefined();
+
+      // [1,2,10,1,5,2,9,10,1,9,2,10]
       // []
       // []
 
-      const player1cards = [2,9,2,1,10,1,10,1,9,5,10,2].reverse(); // reverse is because my bookkeeping is actually opposite of how the data is structured...
+      const player1cards = [1,2,10,1,5,2,9,10,1,9,2,10].reverse(); // reverse is because my bookkeeping is actually opposite of how the data is structured...
 
       for(let i = 0; i < 12; ++i) {
         let card = game.getPlayer(1).revealCard().rank;
