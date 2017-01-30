@@ -40,9 +40,9 @@ deck.shuffle();
 
 printDeck(deck);
 
-console.log(clc.cyan('\n****************'));
-console.log(clc.cyan('* Sample Round *'));
-console.log(clc.cyan('****************\n'));
+console.log(clc.cyan('\n******************************'));
+console.log(clc.cyan('* Endless War - Sample Round *'));
+console.log(clc.cyan('******************************\n'));
 
 deck = new Deck(4, 13); // a real deck!
 deck.shuffle();
@@ -52,9 +52,9 @@ let outcome = game.playRound();
 
 printResult(outcome);
 
-console.log(clc.cyan('\n**************'));
-console.log(clc.cyan('* Sample War *'));
-console.log(clc.cyan('**************\n'));
+console.log(clc.cyan('\n****************************'));
+console.log(clc.cyan('* Endless War - Sample War *'));
+console.log(clc.cyan('****************************\n'));
 
 deck = new Deck(4, 13);
 deck.shuffle();
@@ -72,9 +72,9 @@ while (true) {
   }
 }
 
-console.log(clc.cyan('\n**********************'));
-console.log(clc.cyan('* Sample Double+ War *'));
-console.log(clc.cyan('**********************\n'));
+console.log(clc.cyan('\n************************************'));
+console.log(clc.cyan('* Endless War - Sample Double+ War *'));
+console.log(clc.cyan('************************************\n'));
 
 deck = new Deck(4, 13);
 deck.shuffle();
@@ -96,9 +96,9 @@ while (true) {
   }
 }
 
-console.log(clc.cyan('\n*************************'));
-console.log(clc.cyan('* Sample Three+ Way War *'));
-console.log(clc.cyan('*************************\n'));
+console.log(clc.cyan('\n***************************************'));
+console.log(clc.cyan('* Endless War - Sample Three+ Way War *'));
+console.log(clc.cyan('***************************************\n'));
 
 deck = new Deck(4, 13);
 deck.shuffle();
@@ -120,9 +120,9 @@ while (true) {
 }
 
 
-console.log(clc.cyan('\n*************************'));
-console.log(clc.cyan('* Simulate 1000000 rounds *'));
-console.log(clc.cyan('*************************\n'));
+console.log(clc.cyan('\n*****************************************'));
+console.log(clc.cyan('* Endless War - Simulate 1000000 rounds *'));
+console.log(clc.cyan('*****************************************\n'));
 
 deck = new Deck(4, 13);
 deck.shuffle();

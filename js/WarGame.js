@@ -5,7 +5,6 @@ import Deck from './Deck';
 export default class WarGame {
   constructor(deck, numPlayers) {
     this._deck = deck;
-    this._discardPile = new Deck(0,0);
     this._numPlayers = numPlayers;
     this._players = [];
 
@@ -21,7 +20,6 @@ export default class WarGame {
   }
 
   get deck() { return this._deck; }
-  get discardPile () { return this._discardPile; }
   get players() { return this._players; }
 
   getPlayer(player) {
@@ -50,11 +48,8 @@ export default class WarGame {
 
   _resolveRound(warringPlayers, result) {
 
-    const draw = warringPlayers.map(i => {
-      return this._players[i].revealCard();
-    });
+    const draw = warringPlayers.map(i => { return this._players[i].revealCard(); });
 
-    // for .. of was giving babel fits... didn't want to run it down now.
     for(let j = 0; j < warringPlayers.length; ++j) {
       const playerIndex = warringPlayers[j];
 
@@ -63,23 +58,16 @@ export default class WarGame {
     }
 
     const max = this._findCardWithMaxValue(draw);
-    const atWar = draw.filter(c => c.rank === max.rank).length > 1;
+    const atWar = draw.filter(c => c && c.rank === max.rank).length > 1;
 
     if (atWar) {
       result.war = true;
 
       const warringPlayerIndicies = [];
       for (let i = 0; i < draw.length; i++) {
-        if (draw[i].rank === max.rank) {
+        if (draw[i] && draw[i].rank === max.rank) {
           warringPlayerIndicies.push(warringPlayers[i]);
         }
-      }
-
-      // recurse
-      this._discardDraw(draw);
-
-      if(this._playersNeedCards()) {
-        this._distributeCards();
       }
 
       return this._resolveRound(warringPlayerIndicies, result);
@@ -87,18 +75,33 @@ export default class WarGame {
       // break recursion
       let winner = this._players[warringPlayers[draw.indexOf(max)]]; //object equality....
       result.winner = winner;
-      this._discardDraw(draw);
+      this._awardCards(result.draws, winner);
 
-      if (this._playersNeedCards()) {
-        this._distributeCards();
+      if (this._gameIsOver()) {
+        // console.log('game over!');
+        // console.log(`num players: ${this._numPlayers} empty players ${this._players.filter(p => p.cardCount === 0).length}` );
+        result.gameOver = true;
       }
 
       return result;
     }
   }
 
+  /*****************************************************************************
+  * _gameIsOver
+  *
+  * The game is over when one player has all *available cards* -- if the deck
+  * wasn't evenly divisible by the number of players, then excess cards would
+  * have been left on the deck, making a strict "a player has all the cards in
+  * the deck" impossible.
+  ******************************************************************************/
+
+  _gameIsOver() {
+    return this._players.filter(p => p.cardCount === 0).length === this._numPlayers - 1;
+  }
+
   _findCardWithMaxValue(cards) {
-    return cards.reduce((a, b) => {
+    return cards.filter(c => c).reduce((a, b) => {
       // a is the value of the element we're looking at,
       // b is the value of the previous max
       // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce#Parameters
@@ -106,25 +109,17 @@ export default class WarGame {
     }, {rank: 0});
   }
 
-  _discardDraw(draw) {
-    for(let i = 0; i < draw.length; ++i) {
-      this._discardPile.add(draw[i]);
+  _awardCards(draws, winner) {
+    for(let i = 0; i < draws.length; ++i) {
+      for (let j = 0; j < draws[i].length; ++j) {
+        if(draws[i][j]) {
+          winner.awardCard(draws[i][j]);
+        }
+      }
     }
-    draw = null;
-  }
-
-  _playersNeedCards() {
-    return this._players.filter(p => p.cardCount === 0).length > 0;
   }
 
   _distributeCards() {
-    // place discard cards on deck
-    const x = this._discardPile.currentSize;
-    for (let i = 0; i < x; ++i) {
-      let card = this._discardPile.deal();
-      this._deck.add(card);
-    }
-
     this._deck.shuffle();
 
     let numPasses = Math.floor(this._deck.currentSize / this._numPlayers);

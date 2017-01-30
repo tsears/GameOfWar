@@ -2,21 +2,21 @@ export default class Player {
   constructor(name) {
     this._name = name;
     this._cards = [];
-    this._wonCards = [];
   }
 
   get cardCount() { return this._cards.length; }
+  get score() { return this._cards.length; }
   get name() { return this._name; }
 
   addCard(card) {
     this._cards.push(card);
   }
 
-  revealCard() {
-    return this._cards.pop();
+  awardCard(card) {
+    this._cards.unshift(card);
   }
 
-  claimCard(card) {
-    this._wonCards.push(card);
+  revealCard() {
+    return this._cards.pop();
   }
 }
