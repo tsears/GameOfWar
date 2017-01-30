@@ -3,6 +3,7 @@ export default class RoundResult {
     this._draws = [];
     this._war = false;
     this._winner = null;
+    this._gameOver = false;
   }
 
   get draws() { return this._draws; }
@@ -12,4 +13,7 @@ export default class RoundResult {
 
   get winner() { return this._winner; }
   set winner(v) { this._winner = v; }
+
+  get gameOver() { return this._gameOver; }
+  set gameOver(v) { this._gameOver = v; }
 }

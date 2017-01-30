@@ -20,9 +20,13 @@ export default class Deck {
   get currentSize() { return this._cards.length; }
   get initialSize() { return this._initialSize; }
 
-  deal = () => {
-    return this._cards.shift(); //FIFO
-  };
+  deal() {
+    return this._cards.pop(); //LIFO
+  }
+
+  add(card) {
+    return this._cards.push(card);
+  }
 
   shuffle = () => {
     let newOrder = [];
