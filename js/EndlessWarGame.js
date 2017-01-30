@@ -2,7 +2,7 @@ import Player from './Player';
 import RoundResult from './RoundResult';
 import Deck from './Deck';
 
-export default class WarGame {
+export default class EndlessWarGame {
   constructor(deck, numPlayers) {
     this._deck = deck;
     this._discardPile = new Deck(0,0);

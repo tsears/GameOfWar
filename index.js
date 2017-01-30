@@ -118,3 +118,31 @@ while (true) {
     break;
   }
 }
+
+
+console.log(clc.cyan('\n*************************'));
+console.log(clc.cyan('* Simulate 1000000 rounds *'));
+console.log(clc.cyan('*************************\n'));
+
+deck = new Deck(4, 13);
+deck.shuffle();
+game = new WarGame(deck, 2);
+
+const start = new Date();
+
+console.log(clc.blackBright('Starting Simulation...'));
+const outcomes = [];
+for (let i = 0; i < 1000000; ++i) {
+  outcomes.push(game.playRound());
+}
+const end = new Date();
+
+const span = end.getTime() - start.getTime();
+const secondsDiff = Math.floor(span / (1000));
+console.log(clc.blackBright(`Simulation complete in ${secondsDiff} seconds`));
+
+console.log(`Wars: ${outcomes.filter(o => o.war).length}`);
+console.log(`Player 1 Wins: ${outcomes.filter(o => o.winner && o.winner.name === 'Player 1').length}`);
+console.log(`Player 2 Wins: ${outcomes.filter(o => o.winner && o.winner.name === 'Player 2').length}`);
+// console.log(`Player 3 Wins: ${outcomes.filter(o => o.winner && o.winner.name === 'Player 3').length}`);
+// console.log(`Player 4 Wins: ${outcomes.filter(o => o.winner && o.winner.name === 'Player 4').length}`);

@@ -2,6 +2,7 @@ export default class Player {
   constructor(name) {
     this._name = name;
     this._cards = [];
+    this._wonCards = [];
   }
 
   get cardCount() { return this._cards.length; }
@@ -13,5 +14,9 @@ export default class Player {
 
   revealCard() {
     return this._cards.pop();
+  }
+
+  claimCard(card) {
+    this._wonCards.push(card);
   }
 }
