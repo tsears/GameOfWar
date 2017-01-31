@@ -21,28 +21,6 @@ export default class ScriptTasks {
     };
   }
 
-  angularLib() {
-    const self = this;
-    return () => {
-    	return self.gulp.src([
-  			'node_modules/angular/angular.min.js',
-  		])
-  		.pipe(self.plugins.concat('nglib.js'))
-  		.pipe(self.plugins.uglify({
-        preserveComments: 'license'
-      }))
-  		.pipe(self.gulp.dest('wwwroot/js/lib'));
-    };
-  }
-
-  angularPartials() {
-    const self = this;
-    return () => {
-      return self.gulp.src(['Frontend/**/*.html'])
-		  .pipe(self.gulp.dest('wwwroot/ng-partials'));
-    };
-  }
-
   scriptCompile() {
     const self = this;
     return () => {

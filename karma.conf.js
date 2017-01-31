@@ -9,38 +9,37 @@ module.exports = function(config) {
 
 		// frameworks to use
 		// available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-		frameworks: ['browserify', 'jasmine'],
+		frameworks: ['jasmine'],
 
 		// list of files / patterns to load in the browser
 		files: [{
-			pattern: 'node_modules/angular/angular.min.js',
-			included: true
-		}, {
-			pattern: 'node_modules/angular-mocks/angular-mocks.js',
-			included: true
-		}, {
-			pattern: 'js/**/*.js',
-			included: true
-		}, {
 			pattern: 'test/**/*.js',
 			included: true
 		}],
 
-
 		// list of files to exclude
 		exclude: [],
-
 
 		// preprocess matching files before serving them to the browser
 		// available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
 		preprocessors: {
-			'js/**/*.js': ['browserify'],
-			'test/**/*.js': ['browserify']
+			'test/**/*.js': ['webpack']
 		},
 
-		browserify: {
-			debug: true,
-			transform: [ 'babelify' ]
+		webpack: {
+			module: {
+				loaders: [{
+					loader: 'babel-loader'
+				}]
+			},
+			output: {
+				filename: 'war.min.js'
+			},
+			devtool: 'source-map',
+		},
+
+		webpackMiddleware: {
+			stats: 'errors-only'
 		},
 
 
