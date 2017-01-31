@@ -8,7 +8,7 @@ describe('Endless War Game Tests', () => {
         let deck = new Deck(1,3);
         const game = new EndlessWarGame(deck, 3);
 
-        expect(game.players.length).toBe(3);
+        expect(game.playerCount).toBe(3);
       });
 
       it('Uses the deck passed', () => {

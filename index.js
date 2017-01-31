@@ -255,7 +255,7 @@ let c = 0;
 do {
   gameOutcome = game.playRound();
   if (++c > 5000) { break; }
-} while (!gameOutcome.gameOver)
+} while (!gameOutcome.gameOver);
 
 printResult(gameOutcome);
 

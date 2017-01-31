@@ -7,6 +7,7 @@ export default class WarGame {
     this._deck = deck;
     this._numPlayers = numPlayers;
     this._players = [];
+    this._playerCount = 0;
 
     if (deck.currentSize < numPlayers) {
       throw new Error('Deck must at least the same size as the number of players');
@@ -14,12 +15,14 @@ export default class WarGame {
 
     for (let i = 1; i <= numPlayers; ++i) {
       this._players.push(new Player(`Player ${i}`));
+      ++this._playerCount;
     }
 
     this._distributeCards();
   }
 
   get deck() { return this._deck; }
+  get playerCount() { return this._playerCount; }
 
   getPlayer(player) {
     // players are not zero indexed... didn't want to do that jujitsu from the
