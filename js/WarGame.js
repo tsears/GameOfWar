@@ -20,7 +20,6 @@ export default class WarGame {
   }
 
   get deck() { return this._deck; }
-  get players() { return this._players; }
 
   getPlayer(player) {
     // players are not zero indexed... didn't want to do that jujitsu from the

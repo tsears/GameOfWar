@@ -22,7 +22,6 @@ export default class EndlessWarGame {
 
   get deck() { return this._deck; }
   get discardPile () { return this._discardPile; }
-  get players() { return this._players; }
 
   getPlayer(player) {
     // players are not zero indexed... didn't want to do that jujitsu from the

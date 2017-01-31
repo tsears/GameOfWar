@@ -242,6 +242,28 @@ while (true) {
   }
 }
 
+console.log(clc.cyan('\n******************************'));
+console.log(clc.cyan('* Standard War - Single Game *'));
+console.log(clc.cyan('******************************\n'));
+
+deck = new Deck(4, 13);
+deck.shuffle();
+game = new WarGame(deck, 4);
+
+let gameOutcome;
+let c = 0;
+do {
+  gameOutcome = game.playRound();
+  if (++c > 5000) { break; }
+} while (!gameOutcome.gameOver)
+
+printResult(gameOutcome);
+
+if (c === 5001) {
+  console.log('The players got bored and moved on to something else');
+} else {
+  console.log(`Winner: ${gameOutcome.winner.name} with ${gameOutcome.winner.score} cards`);
+}
 
 console.log(clc.cyan('\n**************************************'));
 console.log(clc.cyan('* Standard War - Simulate 1,000 games *'));
@@ -252,6 +274,7 @@ let wins = [0,0,0,0];
 let warCount = 0;
 let draws = 0;
 let numTurns = [];
+let thrownOutRounds = 0;
 
 console.log(clc.blackBright('Starting Simulation...'));
 
@@ -277,6 +300,7 @@ for (let i = 0; i < 1000; ++i) {
       if (result.winner === null) {
         printResult(result);
       }
+      if (!result.winner) { ++thrownOutRounds; continue; }
       if (result.winner.name === 'Player 1') { ++wins[0]; }
       if (result.winner.name === 'Player 2') { ++wins[1]; }
       if (result.winner.name === 'Player 3') { ++wins[2]; }
