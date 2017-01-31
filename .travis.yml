@@ -5,6 +5,5 @@ before_script:
   - npm install -g gulp
   - npm install -g babel-cli
   - npm install
-  - gulp build
 script:
   - gulp
