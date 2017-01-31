@@ -1,3 +1,4 @@
+<img src="https://travis-ci.org/tsears/GameOfWar.svg?branch=master" align="right"/>
 # Game Of War #
 
 A javascript-based take on the [card game War](https://en.wikipedia.org/wiki/War_(card_game)).
