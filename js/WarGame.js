@@ -154,30 +154,36 @@ export default class WarGame {
   }
 
   _awardCardsIncreasing(draws, winner) {
-    for(let i = 0; i < draws.length; ++i) {
-      for (let j = 0; j < draws[i].length; ++j) {
-        if(draws[i][j]) {
-          winner.awardCard(draws[i][j]);
-        }
-      }
-    }
+    this._getDrawsThen(draws, (card) => {
+      winner.awardCard(card);
+    });
   }
 
   _awardCardsShuffled(draws, winner) {
     const tempDeck = new Deck(0,0);
-    for(let i = 0; i < draws.length; ++i) {
-      for (let j = 0; j < draws[i].length; ++j) {
-        if(draws[i][j]) {
-          tempDeck.add(draws[i][j]);
-        }
-      }
-    }
+    this._getDrawsThen(draws, (card) => {
+      tempDeck.add(card);
+    })
 
     tempDeck.shuffle();
 
     while(tempDeck.currentSize > 0) {
       winner.awardCard(tempDeck.deal());
     }
+  }
+
+  _getDrawsThen(draws, action) {
+    const out = [];
+
+    for(let i = 0; i < draws.length; ++i) {
+      for (let j = 0; j < draws[i].length; ++j) {
+        if(draws[i][j]) {
+          action(draws[i][j])
+        }
+      }
+    }
+
+    return out;
   }
 
   _distributeCards() {
