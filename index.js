@@ -1,5 +1,8 @@
 // CLI driver -- quick way to spot check various funcitonality.
 
+// CodeClimate ignores this file -- the duplication is quite intentional - each
+// integration test is meant to represent a mostly-complete demo.
+
 import Deck from './js/Deck';
 import clc from 'cli-color';
 import WarGame from './js/WarGame';

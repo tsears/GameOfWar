@@ -53,15 +53,6 @@ export default class EndlessWarGame extends WarGame {
       this._deck.add(card);
     }
 
-    this._deck.shuffle();
-
-    let numPasses = Math.floor(this._deck.currentSize / this._numPlayers);
-
-    while(numPasses > 0) {
-      for (let i = 0; i < this._numPlayers; ++i) {
-        this._players[i].addCard(this._deck.deal());
-      }
-      --numPasses;
-    }
+    super._distributeCards();
   }
 }
