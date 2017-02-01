@@ -1,5 +1,15 @@
 // Karma configuration
 // Generated on Sat Apr 09 2016 22:42:44 GMT+0000 (UTC)
+var path = require('path');
+
+var kReporters = null;
+if (process.env.TRAVIS) {
+	console.log('Setting reporters for Travis');
+	kReporters = ['spec', 'coverage', 'coveralls'];
+} else {
+	console.log('Setting reporters for local dev');
+	kReporters = ['progress', 'coverage'];
+}
 
 module.exports = function(config) {
 	config.set({
@@ -12,10 +22,9 @@ module.exports = function(config) {
 		frameworks: ['jasmine'],
 
 		// list of files / patterns to load in the browser
-		files: [{
-			pattern: 'test/**/*.js',
-			included: true
-		}],
+		files: [
+			'test/tests.webpack.js',
+		],
 
 		// list of files to exclude
 		exclude: [],
@@ -23,19 +32,46 @@ module.exports = function(config) {
 		// preprocess matching files before serving them to the browser
 		// available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
 		preprocessors: {
-			'test/**/*.js': ['webpack']
+			'test/tests.webpack.js': ['webpack', 'sourcemap'],
+			'js/**/*.js': ['coverage']
 		},
 
 		webpack: {
-			module: {
-				loaders: [{
-					loader: 'babel-loader'
-				}]
-			},
-			output: {
-				filename: 'war.min.js'
-			},
-			devtool: 'source-map',
+		 cache: true,
+		 devtool: 'inline-source-map',
+		 module: {
+		   preLoaders: [
+		     {
+		       test: /-spec\.js$/,
+		       include: /test/,
+		       exclude: /(bower_components|node_modules)/,
+		       loader: 'babel',
+		       query: {
+		         cacheDirectory: true,
+		       },
+		     },
+		     {
+		       test: /\.js?$/,
+		       include: /js/,
+		       exclude: /(node_modules)/,
+		       loader: 'babel-istanbul',
+		       query: {
+		         cacheDirectory: true,
+		       },
+		     },
+		   ],
+		   loaders: [
+		     {
+		       test: /\.js$/,
+		       include: path.resolve(__dirname, '../js'),
+		       exclude: /(node_modules)/,
+		       loader: 'babel',
+		       query: {
+		         cacheDirectory: true,
+		       },
+		     }
+		   ],
+		 },
 		},
 
 		webpackMiddleware: {
@@ -46,12 +82,12 @@ module.exports = function(config) {
 		// test results reporter to use
 		// possible values: 'dots', 'progress'
 		// available reporters: https://npmjs.org/browse/keyword/karma-reporter
-		reporters: ['spec', 'coverage', 'coveralls'],
+		reporters: kReporters,	// see top of file
 
 		coverageReporter: {
-			type: 'lcov', // lcov or lcovonly are required for generating lcov.info files
+      type: 'lcov',
 			dir: 'coverage/'
-		},
+    },
 
 		// web server port
 		port: 9876,
