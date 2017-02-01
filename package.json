@@ -1,6 +1,6 @@
 {
   "name": "gameofwar",
-  "version": "0.0.9",
+  "version": "1.0.0",
   "description": "Game of War Coding Exercise",
   "main": "index.js",
   "dependencies": {},

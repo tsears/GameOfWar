@@ -21,7 +21,7 @@ export default class ScriptTasks {
     };
   }
 
-  scriptCompile() {
+  scriptCompile(minified = true) {
     const self = this;
     return () => {
     	return self.gulp.src('js/war.js')
@@ -32,16 +32,16 @@ export default class ScriptTasks {
     					}]
     				},
     				output: {
-    					filename: 'war.min.js'
+    					filename: minified ? 'game-of-war.min.js' : 'game-of-war.js'
     				},
     				devtool: 'source-map',
-    				plugins: [
+    				plugins:  minified ? [
     					new self.plugins.webpack.optimize.UglifyJsPlugin({
     						compress: {
     							drop_debugger: false // the linter will warn about the debugger statement, assume it's there intentionally
     						}
     					})
-    				]
+    				] : []
     		}))
     		.pipe(self.plugins.sourcemaps.init())
     		.pipe(self.gulp.dest('dist'))

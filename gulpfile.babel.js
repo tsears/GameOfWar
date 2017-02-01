@@ -15,7 +15,8 @@ let plugins = gulpLoadPlugins({
 // Script Tasks
 let scriptTasks = new ScriptTasks(gulp, plugins);
 gulp.task('lint', scriptTasks.lint());
-gulp.task('scriptCompile', scriptTasks.scriptCompile());
+gulp.task('scriptCompileWithMinification', scriptTasks.scriptCompile());
+gulp.task('scriptCompile', scriptTasks.scriptCompile(false));
 gulp.task('jsTest', scriptTasks.jsTest());
 
 // Dev Tasks
@@ -27,5 +28,6 @@ gulp.task('default',
     'lint',
 		'jsTest',
     'scriptCompile',
+		'scriptCompileWithMinification',
   ]
 );
