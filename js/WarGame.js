@@ -2,12 +2,18 @@ import Player from './Player';
 import RoundResult from './RoundResult';
 import Deck from './Deck';
 
+export const CardAwardMethod = {
+  "Increasing" : 0,
+  "Shuffled" : 1
+}
+
 export default class WarGame {
-  constructor(deck, numPlayers) {
+  constructor(deck, numPlayers, distributionMethod = CardAwardMethod.Increasing) {
     this._deck = deck;
     this._numPlayers = numPlayers;
     this._players = [];
     this._playerCount = 0;
+    this._distributionMethod = distributionMethod;
 
     if (deck.currentSize < numPlayers) {
       throw new Error('Deck must at least the same size as the number of players');
@@ -140,12 +146,37 @@ export default class WarGame {
   }
 
   _awardCards(draws, winner) {
+    if (this._distributionMethod === CardAwardMethod.Increasing) {
+      this._awardCardsIncreasing(draws, winner);
+    } else if (this._distributionMethod === CardAwardMethod.Shuffled) {
+      this._awardCardsShuffled(draws, winner);
+    }
+  }
+
+  _awardCardsIncreasing(draws, winner) {
     for(let i = 0; i < draws.length; ++i) {
       for (let j = 0; j < draws[i].length; ++j) {
         if(draws[i][j]) {
           winner.awardCard(draws[i][j]);
         }
       }
+    }
+  }
+
+  _awardCardsShuffled(draws, winner) {
+    const tempDeck = new Deck(0,0);
+    for(let i = 0; i < draws.length; ++i) {
+      for (let j = 0; j < draws[i].length; ++j) {
+        if(draws[i][j]) {
+          tempDeck.add(draws[i][j]);
+        }
+      }
+    }
+
+    tempDeck.shuffle();
+
+    while(tempDeck.currentSize > 0) {
+      winner.awardCard(tempDeck.deal());
     }
   }
 

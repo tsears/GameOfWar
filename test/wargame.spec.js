@@ -1,4 +1,4 @@
-import WarGame from '../js/WarGame';
+import WarGame, {CardAwardMethod} from '../js/WarGame';
 import Deck from '../js/Deck';
 import Card from '../js/Card';
 
@@ -114,6 +114,59 @@ describe('War Game Tests', () => {
       expect(result.draws[1].length).toBe(3);
       expect(result.draws[2].length).toBe(3);
       expect(result.winner.name).toBe('Player 2');
+    });
+
+    it('ROUND - Shuffles awarded cards when distributionMethod is "Shuffled"', () => {
+      const deck1 = new MockDeck();
+      deck1.add(new Card(2,2)); // p3 card 1
+      deck1.add(new Card(2,2)); // p2 card 1
+      deck1.add(new Card(2,1)); // p1 card 1
+
+      deck1.add(new Card(1,1)); // p3 card 2
+      deck1.add(new Card(1,1)); // p2 card 2
+      deck1.add(new Card(1,1)); // p1 card 2 (not used)
+
+      deck1.add(new Card(1,1)); // p3 card 3
+      deck1.add(new Card(1,5)); // p2 card 3 <-- winner
+      deck1.add(new Card(1,1)); // p1 card 3 (not used)
+
+      const deck2 = new MockDeck();
+      deck2.add(new Card(2,2)); // p3 card 1
+      deck2.add(new Card(2,2)); // p2 card 1
+      deck2.add(new Card(2,1)); // p1 card 1
+
+      deck2.add(new Card(1,1)); // p3 card 2
+      deck2.add(new Card(1,1)); // p2 card 2
+      deck2.add(new Card(1,1)); // p1 card 2
+
+      deck2.add(new Card(1,1)); // p3 card 3
+      deck2.add(new Card(1,5)); // p2 card 3
+      deck2.add(new Card(1,1)); // p1 card 3 (not used)
+
+      const shuffleGame = new WarGame(deck1, 3, CardAwardMethod.Shuffled);
+      const increasingGame = new WarGame(deck2, 3);
+      let shuffledResult = shuffleGame.playRound();
+      let orderedResult = increasingGame.playRound();
+      expect(shuffledResult.winner.score).toBe(7);
+
+      // ordered card order
+      expect(orderedResult.winner.name).toBe('Player 2');
+      expect(shuffledResult.winner.name).toBe('Player 2');
+      let differentOrder = false;
+
+      const winnerOrder = [1,1,2,5,1,2,1].reverse();
+
+      for (let i = 0; i < 7; ++i) {
+        const oCard = orderedResult.winner.revealCard();
+        const sCard = shuffledResult.winner.revealCard();
+        expect(oCard.rank).toBe(winnerOrder[i]);
+
+        if (oCard.rank !== sCard.rank || oCard.suit !== sCard.suit) {
+          differentOrder = true;
+        }
+      }
+
+      expect(differentOrder).toBe(true);
     });
 
     it('ROUND - Determines the correct winner in a three-player war in a 3 player game', () => {

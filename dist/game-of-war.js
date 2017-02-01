@@ -98,6 +98,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.CardAwardMethod = undefined;
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
@@ -117,14 +118,22 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
+	var CardAwardMethod = exports.CardAwardMethod = {
+	  "Increasing": 0,
+	  "Shuffled": 1
+	};
+	
 	var WarGame = function () {
 	  function WarGame(deck, numPlayers) {
+	    var distributionMethod = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : CardAwardMethod.Increasing;
+	
 	    _classCallCheck(this, WarGame);
 	
 	    this._deck = deck;
 	    this._numPlayers = numPlayers;
 	    this._players = [];
 	    this._playerCount = 0;
+	    this._distributionMethod = distributionMethod;
 	
 	    if (deck.currentSize < numPlayers) {
 	      throw new Error('Deck must at least the same size as the number of players');
@@ -281,12 +290,39 @@
 	  }, {
 	    key: '_awardCards',
 	    value: function _awardCards(draws, winner) {
+	      if (this._distributionMethod === CardAwardMethod.Increasing) {
+	        this._awardCardsIncreasing(draws, winner);
+	      } else if (this._distributionMethod === CardAwardMethod.Shuffled) {
+	        this._awardCardsShuffled(draws, winner);
+	      }
+	    }
+	  }, {
+	    key: '_awardCardsIncreasing',
+	    value: function _awardCardsIncreasing(draws, winner) {
 	      for (var i = 0; i < draws.length; ++i) {
 	        for (var j = 0; j < draws[i].length; ++j) {
 	          if (draws[i][j]) {
 	            winner.awardCard(draws[i][j]);
 	          }
 	        }
+	      }
+	    }
+	  }, {
+	    key: '_awardCardsShuffled',
+	    value: function _awardCardsShuffled(draws, winner) {
+	      var tempDeck = new _Deck2.default(0, 0);
+	      for (var i = 0; i < draws.length; ++i) {
+	        for (var j = 0; j < draws[i].length; ++j) {
+	          if (draws[i][j]) {
+	            tempDeck.add(draws[i][j]);
+	          }
+	        }
+	      }
+	
+	      tempDeck.shuffle();
+	
+	      while (tempDeck.currentSize > 0) {
+	        winner.awardCard(tempDeck.deal());
 	      }
 	    }
 	  }, {
