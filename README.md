@@ -1,10 +1,9 @@
-# Game Of War  [![Build Status](https://travis-ci.org/tsears/GameOfWar.svg?branch=master)](https://travis-ci.org/tsears/GameOfWar) [![Coverage Status](https://coveralls.io/repos/github/tsears/GameOfWar/badge.svg?branch=master)](https://coveralls.io/github/tsears/GameOfWar?branch=master) [![Code Climate](https://codeclimate.com/github/tsears/GameOfWar/badges/gpa.svg)](https://codeclimate.com/github/tsears/GameOfWar) #
+# Game Of War  [![Build Status](https://travis-ci.org/tsears/GameOfWar.svg?branch=master)](https://travis-ci.org/tsears/GameOfWar) [![Coverage Status](https://coveralls.io/repos/github/tsears/GameOfWar/badge.svg?branch=master)](https://coveralls.io/github/tsears/GameOfWar?branch=master) [![Code Climate](https://codeclimate.com/github/tsears/GameOfWar/badges/gpa.svg)](https://codeclimate.com/github/tsears/GameOfWar) ![Version 0.0.9](https://img.shields.io/badge/version-0.0.9-orange.svg])#
 
 A javascript-based take on the [card game War](https://en.wikipedia.org/wiki/War_(card_game)).
-Implemented as a library to be used in other applications.  Sample applications are
-included, a console-based node application, and a web version in the site branch.
-
-(TODO: document site branch)
+Implemented as a library to be used in other applications.  A sample application
+is included as a console-based node application, and a web site will be released
+soon.
 
 ## Quickly running the node version ##
 
@@ -152,10 +151,9 @@ are placed in a global discard pile.  When a player runs out of cards, the disca
 is added to the deck, shuffled, and the cards _are distributed evenly between all
 players in the game_.
 
-The api for EndlessWarGame includes everything from WarGame (in an OO language we'd
-have them implement the same interface).  It also exposes a property for the discard
-pile.
-
+The api for EndlessWarGame includes everything from WarGame (It actually inherits
+from WarGame and overrides some of the methods).  It also exposes a property for
+the discard pile.
 
 #### Sample ####
 

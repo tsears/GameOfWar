@@ -1,6 +1,6 @@
 {
   "name": "gameofwar",
-  "version": "0.0.0",
+  "version": "0.0.9",
   "description": "Game of War Coding Exercise",
   "main": "index.js",
   "dependencies": {},
@@ -17,8 +17,6 @@
     "gulp-jshint": "^2.0.4",
     "gulp-load-plugins": "^1.4.0",
     "gulp-rename": "^1.2.2",
-    "gulp-sass": "^3.1.0",
-    "gulp-sass-glob": "^1.0.8",
     "gulp-sourcemaps": "^2.4.0",
     "gulp-uglify": "^2.0.0",
     "gulp-util": "^3.0.8",
