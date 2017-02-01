@@ -18,7 +18,7 @@ export default class WarGame {
       ++this._playerCount;
     }
 
-    this._distributeCards();
+    this._startGame();
   }
 
   get deck() { return this._deck; }
@@ -38,6 +38,10 @@ export default class WarGame {
     return this._resolveRound(indicies, result);
   }
 
+  _startGame() {
+    this._distributeCards();
+  }
+
 
   /*****************************************************************************
   * _resolveRound
@@ -51,42 +55,42 @@ export default class WarGame {
   _resolveRound(warringPlayers, result) {
 
     const draw = this._draw(warringPlayers, result);
-
     const max = this._findCardWithMaxValue(draw);
     const atWar = draw.filter(c => c && c.rank === max.rank).length > 1;
 
     if (atWar) {
       result.war = true;
 
-      const warringPlayerIndicies = [];
-      for (let i = 0; i < draw.length; i++) {
-        if (draw[i] && draw[i].rank === max.rank) {
-          warringPlayerIndicies.push(warringPlayers[i]);
-        }
-      }
+      const warringPlayerIndicies = this._getWarringPlayerIndicies(draw, warringPlayers, max);
 
-      this._draw(warringPlayerIndicies, result);
+      this._prepForWar(draw, warringPlayerIndicies, result);
 
       return this._resolveRound(warringPlayerIndicies, result);
     } else {
       // break recursion
       let winner = this._players[warringPlayers[draw.indexOf(max)]]; //object equality....
 
-      if (!winner) {
-        result.winner = null;
-      } else {
-        result.winner = winner;
-        this._awardCards(result.draws, winner);
-      }
-
-      if (this._gameIsOver()) {
-        // console.log('game over!');
-        // console.log(`num players: ${this._numPlayers} empty players ${this._players.filter(p => p.cardCount === 0).length}` );
-        result.gameOver = true;
-      }
-
-      return result;
+      return this._finishRound(winner, draw, result);
     }
+  }
+
+  _prepForWar(draw, warringPlayerIndicies, result) {
+    this._draw(warringPlayerIndicies, result);
+  }
+
+  _finishRound(winner, draw, result) {
+    if (!winner) {
+      result.winner = null;
+    } else {
+      result.winner = winner;
+      this._awardCards(result.draws, winner);
+    }
+
+    if (this._gameIsOver()) {
+      result.gameOver = true;
+    }
+
+    return result;
   }
 
   _draw(warringPlayers, result) {
@@ -113,6 +117,17 @@ export default class WarGame {
 
   _gameIsOver() {
     return this._players.filter(p => p.cardCount === 0).length === this._numPlayers - 1;
+  }
+
+  _getWarringPlayerIndicies(draw, players, warVal) {
+    const indicies = [];
+    for (let i = 0; i < draw.length; i++) {
+      if (draw[i] && draw[i].rank === warVal.rank) {
+        indicies.push(players[i]);
+      }
+    }
+
+    return indicies;
   }
 
   _findCardWithMaxValue(cards) {

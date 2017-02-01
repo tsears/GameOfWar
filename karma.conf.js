@@ -8,7 +8,7 @@ if (process.env.TRAVIS) {
 	kReporters = ['spec', 'coverage', 'coveralls'];
 } else {
 	console.log('Setting reporters for local dev');
-	kReporters = ['progress', 'coverage'];
+	kReporters = ['spec', 'coverage'];
 }
 
 module.exports = function(config) {
