@@ -1,8 +1,4 @@
-<a href='https://travis-ci.org/tsears/GameOfWar'><img src="https://travis-ci.org/tsears/GameOfWar.svg?branch=master" alt="Build Status" align="right" /></a>
-
-<a href='https://coveralls.io/github/tsears/GameOfWar'><img src='https://coveralls.io/repos/github/tsears/GameOfWar/badge.svg' alt='Coverage Status' align="right" /></a>
-
-# Game Of War #
+# Game Of War  [![Build Status](https://travis-ci.org/tsears/GameOfWar.svg?branch=master)](https://travis-ci.org/tsears/GameOfWar) [![Coverage Status](https://coveralls.io/repos/github/tsears/GameOfWar/badge.svg?branch=master)](https://coveralls.io/github/tsears/GameOfWar?branch=master) #
 
 A javascript-based take on the [card game War](https://en.wikipedia.org/wiki/War_(card_game)).
 Implemented as a library to be used in other applications.  Sample applications are
