@@ -1,4 +1,5 @@
 import WarGame from './WarGame';
+import Deck from './Deck';
 
 export default class War {
   constructor(numSuits, numRanks, numPlayers) {
@@ -11,5 +12,5 @@ export default class War {
     this._warGame = new WarGame(new Deck(this._numSuits, this._numRanks), this._numPlayers);
   }
 
-
+  get game() { return this._warGame; }
 }
