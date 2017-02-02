@@ -26,13 +26,16 @@ export default class ScriptTasks {
     return () => {
     	return self.gulp.src('js/war.js')
     		.pipe(self.plugins.webpackStream({
+            entry: { 'game-of-war': './js/GameOfWar.js'},
     				module: {
     					loaders: [{
     						loader: 'babel-loader'
     					}]
     				},
     				output: {
-    					filename: minified ? 'game-of-war.min.js' : 'game-of-war.js'
+    					filename: minified ? '[name].min.js' : '[name].js',
+              libraryTarget: 'var',
+              library: 'War'
     				},
     				devtool: 'source-map',
     				plugins:  minified ? [
@@ -43,9 +46,9 @@ export default class ScriptTasks {
     					})
     				] : []
     		}))
-    		.pipe(self.plugins.sourcemaps.init())
-    		.pipe(self.gulp.dest('dist'))
-    		.pipe(self.plugins.sourcemaps.write('.'));
+    		//.pipe(self.plugins.sourcemaps.init())
+    		.pipe(self.gulp.dest('dist'));
+    		//.pipe(self.plugins.sourcemaps.write('.'));
     };
   }
 

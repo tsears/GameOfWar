@@ -5,7 +5,7 @@ import Deck from './Deck';
 export const CardAwardMethod = {
   "Increasing" : 0,
   "Shuffled" : 1
-}
+};
 
 export default class WarGame {
   constructor(deck, numPlayers, distributionMethod = CardAwardMethod.Increasing) {
@@ -163,7 +163,7 @@ export default class WarGame {
     const tempDeck = new Deck(0,0);
     this._getDrawsThen(draws, (card) => {
       tempDeck.add(card);
-    })
+    });
 
     tempDeck.shuffle();
 
@@ -178,7 +178,7 @@ export default class WarGame {
     for(let i = 0; i < draws.length; ++i) {
       for (let j = 0; j < draws[i].length; ++j) {
         if(draws[i][j]) {
-          action(draws[i][j])
+          action(draws[i][j]);
         }
       }
     }

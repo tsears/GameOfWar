@@ -1,3 +1,4 @@
+var War =
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -46,17 +47,48 @@
 
 	'use strict';
 	
+	var _War = __webpack_require__(1);
+	
+	var _War2 = _interopRequireDefault(_War);
+	
+	var _WarGame = __webpack_require__(2);
+	
+	var _WarGame2 = _interopRequireDefault(_WarGame);
+	
+	var _EndlessWarGame = __webpack_require__(7);
+	
+	var _EndlessWarGame2 = _interopRequireDefault(_EndlessWarGame);
+	
+	var _Deck = __webpack_require__(5);
+	
+	var _Deck2 = _interopRequireDefault(_Deck);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	module.exports = {
+	  War: _War2.default,
+	  Game: _WarGame2.default,
+	  EndlessGame: _EndlessWarGame2.default,
+	  Deck: _Deck2.default
+	};
+
+/***/ },
+/* 1 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _WarGame = __webpack_require__(1);
+	var _WarGame = __webpack_require__(2);
 	
 	var _WarGame2 = _interopRequireDefault(_WarGame);
 	
-	var _Deck = __webpack_require__(4);
+	var _Deck = __webpack_require__(5);
 	
 	var _Deck2 = _interopRequireDefault(_Deck);
 	
@@ -90,7 +122,7 @@
 	exports.default = War;
 
 /***/ },
-/* 1 */
+/* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -102,15 +134,15 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _Player = __webpack_require__(2);
+	var _Player = __webpack_require__(3);
 	
 	var _Player2 = _interopRequireDefault(_Player);
 	
-	var _RoundResult = __webpack_require__(3);
+	var _RoundResult = __webpack_require__(4);
 	
 	var _RoundResult2 = _interopRequireDefault(_RoundResult);
 	
-	var _Deck = __webpack_require__(4);
+	var _Deck = __webpack_require__(5);
 	
 	var _Deck2 = _interopRequireDefault(_Deck);
 	
@@ -299,31 +331,38 @@
 	  }, {
 	    key: '_awardCardsIncreasing',
 	    value: function _awardCardsIncreasing(draws, winner) {
-	      for (var i = 0; i < draws.length; ++i) {
-	        for (var j = 0; j < draws[i].length; ++j) {
-	          if (draws[i][j]) {
-	            winner.awardCard(draws[i][j]);
-	          }
-	        }
-	      }
+	      this._getDrawsThen(draws, function (card) {
+	        winner.awardCard(card);
+	      });
 	    }
 	  }, {
 	    key: '_awardCardsShuffled',
 	    value: function _awardCardsShuffled(draws, winner) {
 	      var tempDeck = new _Deck2.default(0, 0);
-	      for (var i = 0; i < draws.length; ++i) {
-	        for (var j = 0; j < draws[i].length; ++j) {
-	          if (draws[i][j]) {
-	            tempDeck.add(draws[i][j]);
-	          }
-	        }
-	      }
+	      this._getDrawsThen(draws, function (card) {
+	        tempDeck.add(card);
+	      });
 	
 	      tempDeck.shuffle();
 	
 	      while (tempDeck.currentSize > 0) {
 	        winner.awardCard(tempDeck.deal());
 	      }
+	    }
+	  }, {
+	    key: '_getDrawsThen',
+	    value: function _getDrawsThen(draws, action) {
+	      var out = [];
+	
+	      for (var i = 0; i < draws.length; ++i) {
+	        for (var j = 0; j < draws[i].length; ++j) {
+	          if (draws[i][j]) {
+	            action(draws[i][j]);
+	          }
+	        }
+	      }
+	
+	      return out;
 	    }
 	  }, {
 	    key: '_distributeCards',
@@ -357,7 +396,7 @@
 	exports.default = WarGame;
 
 /***/ },
-/* 2 */
+/* 3 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -416,7 +455,7 @@
 	exports.default = Player;
 
 /***/ },
-/* 3 */
+/* 4 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -476,7 +515,7 @@
 	exports.default = RoundResult;
 
 /***/ },
-/* 4 */
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -487,7 +526,7 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _Card = __webpack_require__(5);
+	var _Card = __webpack_require__(6);
 	
 	var _Card2 = _interopRequireDefault(_Card);
 	
@@ -564,7 +603,7 @@
 	exports.default = Deck;
 
 /***/ },
-/* 5 */
+/* 6 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -601,6 +640,119 @@
 	}();
 	
 	exports.default = Card;
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
+	var _Player = __webpack_require__(3);
+	
+	var _Player2 = _interopRequireDefault(_Player);
+	
+	var _RoundResult = __webpack_require__(4);
+	
+	var _RoundResult2 = _interopRequireDefault(_RoundResult);
+	
+	var _Deck = __webpack_require__(5);
+	
+	var _Deck2 = _interopRequireDefault(_Deck);
+	
+	var _WarGame2 = __webpack_require__(2);
+	
+	var _WarGame3 = _interopRequireDefault(_WarGame2);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var EndlessWarGame = function (_WarGame) {
+	  _inherits(EndlessWarGame, _WarGame);
+	
+	  function EndlessWarGame(deck, numPlayers) {
+	    _classCallCheck(this, EndlessWarGame);
+	
+	    return _possibleConstructorReturn(this, (EndlessWarGame.__proto__ || Object.getPrototypeOf(EndlessWarGame)).call(this, deck, numPlayers));
+	  }
+	
+	  _createClass(EndlessWarGame, [{
+	    key: '_startGame',
+	    value: function _startGame() {
+	      this._discardPile = new _Deck2.default(0, 0);
+	      this._distributeCards();
+	    }
+	  }, {
+	    key: '_prepForWar',
+	    value: function _prepForWar(draw) {
+	      this._discardDraw(draw);
+	
+	      if (this._playersNeedCards()) {
+	        this._distributeCards();
+	      }
+	    }
+	  }, {
+	    key: '_finishRound',
+	    value: function _finishRound(winner, draw, result) {
+	      result.winner = winner;
+	      this._discardDraw(draw);
+	
+	      if (this._playersNeedCards()) {
+	        this._distributeCards();
+	      }
+	
+	      return result;
+	    }
+	  }, {
+	    key: '_discardDraw',
+	    value: function _discardDraw(draw) {
+	      for (var i = 0; i < draw.length; ++i) {
+	        this._discardPile.add(draw[i]);
+	      }
+	      draw = null;
+	    }
+	  }, {
+	    key: '_playersNeedCards',
+	    value: function _playersNeedCards() {
+	      return this._players.filter(function (p) {
+	        return p.cardCount === 0;
+	      }).length > 0;
+	    }
+	  }, {
+	    key: '_distributeCards',
+	    value: function _distributeCards() {
+	      // place discard cards on deck
+	      var x = this._discardPile.currentSize;
+	      for (var i = 0; i < x; ++i) {
+	        var card = this._discardPile.deal();
+	        this._deck.add(card);
+	      }
+	
+	      _get(EndlessWarGame.prototype.__proto__ || Object.getPrototypeOf(EndlessWarGame.prototype), '_distributeCards', this).call(this);
+	    }
+	  }, {
+	    key: 'discardPile',
+	    get: function get() {
+	      return this._discardPile;
+	    }
+	  }]);
+	
+	  return EndlessWarGame;
+	}(_WarGame3.default);
+	
+	exports.default = EndlessWarGame;
 
 /***/ }
 /******/ ]);

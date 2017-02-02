@@ -2,8 +2,9 @@
 
 A javascript-based take on the [card game War](https://en.wikipedia.org/wiki/War_(card_game)).
 Implemented as a library to be used in other applications.  A sample application
-is included as a console-based node application, and a web site will be released
-soon.
+is included as a console-based node application,
+
+A demo site is can be found [here](http://wargame.tsears.net).
 
 ## Quickly running the node version ##
 

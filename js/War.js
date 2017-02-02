@@ -1,4 +1,5 @@
 import WarGame from './WarGame';
+import EndlessWarGame from './WarGame';
 import Deck from './Deck';
 
 export default class War {
