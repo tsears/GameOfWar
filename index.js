@@ -5,7 +5,7 @@
 
 import Deck from './js/Deck';
 import clc from 'cli-color';
-import WarGame from './js/WarGame';
+import WarGame, {CardAwardMethod} from './js/WarGame';
 import EndlessWarGame from './js/EndlessWarGame';
 
 function printDeck(pDeck) {
@@ -284,7 +284,7 @@ console.log(clc.blackBright('Starting Simulation...'));
 for (let i = 0; i < 1000; ++i) {
   deck = new Deck(4, 13);
   deck.shuffle();
-  game = new WarGame(deck, 4);
+  game = new WarGame(deck, 4, CardAwardMethod.Shuffled);
   let roundCount = 0;
 
   while(true) {

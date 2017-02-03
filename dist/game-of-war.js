@@ -69,7 +69,8 @@ var War =
 	  War: _War2.default,
 	  Game: _WarGame2.default,
 	  EndlessGame: _EndlessWarGame2.default,
-	  Deck: _Deck2.default
+	  Deck: _Deck2.default,
+	  CardAwardMethod: _WarGame.CardAwardMethod
 	};
 
 /***/ },
